@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
-from contacts import Contacts
+from contact import Contact
 
 
 class TestAddContact(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestAddContact(unittest.TestCase):
         self.login(wd, username="admin", password="secret")
         self.to_add_contact_page(wd)
         self.fill_full_contact_info(wd,
-                                    Contacts("n1", "mn1", "ln1", "nik1", "D:\Lol\Снимок3.png", "t1", "comp1", "addr1",
+                                    Contact("n1", "mn1", "ln1", "nik1", "D:\Lol\Снимок3.png", "t1", "comp1", "addr1",
                                              "1111111", "222222", "33333", "444444",
                                              "test@mail.ru", "test2@mail.ru", "test3@mail.ru", "http://test.ru",
                                              "1", "January", "1970", "2", "February", "1980",
@@ -34,50 +34,50 @@ class TestAddContact(unittest.TestCase):
         self.to_home_page(wd)
         self.logout(wd)
 
-    def fill_full_contact_info(self, wd, contacts):
+    def fill_full_contact_info(self, wd, contact):
         wd.find_element_by_link_text("add new").click()
-        self.fill_contacts(wd, contacts)
-        self.fill_phones(wd, contacts)
-        self.fill_personal_info(wd, contacts)
-        self.fill_dates(wd, contacts)
-        self.fill_secondary_info(wd, contacts)
+        self.fill_contacts(wd, contact)
+        self.fill_phones(wd, contact)
+        self.fill_personal_info(wd, contact)
+        self.fill_dates(wd, contact)
+        self.fill_secondary_info(wd, contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def fill_contacts(self, wd, contacts):
-        wd.find_element_by_name("email").send_keys(contacts.email)
-        wd.find_element_by_name("email2").send_keys(contacts.email2)
-        wd.find_element_by_name("email3").send_keys(contacts.email3)
-        wd.find_element_by_name("homepage").send_keys(contacts.homepage)
+    def fill_contacts(self, wd, contact):
+        wd.find_element_by_name("email").send_keys(contact.email)
+        wd.find_element_by_name("email2").send_keys(contact.email2)
+        wd.find_element_by_name("email3").send_keys(contact.email3)
+        wd.find_element_by_name("homepage").send_keys(contact.homepage)
 
-    def fill_phones(self, wd, contacts):
-        wd.find_element_by_name("home").send_keys(contacts.home)
-        wd.find_element_by_name("mobile").send_keys(contacts.mobile)
-        wd.find_element_by_name("work").send_keys(contacts.work)
-        wd.find_element_by_name("fax").send_keys(contacts.fax)
+    def fill_phones(self, wd, contact):
+        wd.find_element_by_name("home").send_keys(contact.home)
+        wd.find_element_by_name("mobile").send_keys(contact.mobile)
+        wd.find_element_by_name("work").send_keys(contact.work)
+        wd.find_element_by_name("fax").send_keys(contact.fax)
 
-    def fill_personal_info(self, wd, contacts):
-        wd.find_element_by_name("firstname").send_keys(contacts.firstname)
-        wd.find_element_by_name("middlename").send_keys(contacts.middlename)
-        wd.find_element_by_name("lastname").send_keys(contacts.lastname)
-        wd.find_element_by_name("nickname").send_keys(contacts.nickname)
-        wd.find_element_by_name("photo").send_keys(contacts.photo)
-        wd.find_element_by_name("title").send_keys(contacts.title)
-        wd.find_element_by_name("company").send_keys(contacts.company)
-        wd.find_element_by_name("address").send_keys(contacts.address)
+    def fill_personal_info(self, wd, contact):
+        wd.find_element_by_name("firstname").send_keys(contact.firstname)
+        wd.find_element_by_name("middlename").send_keys(contact.middlename)
+        wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        wd.find_element_by_name("nickname").send_keys(contact.nickname)
+        wd.find_element_by_name("photo").send_keys(contact.photo)
+        wd.find_element_by_name("title").send_keys(contact.title)
+        wd.find_element_by_name("company").send_keys(contact.company)
+        wd.find_element_by_name("address").send_keys(contact.address)
 
-    def fill_dates(self, wd, contacts):
-        Select(wd.find_element_by_name("bday")).select_by_visible_text(contacts.bday)
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contacts.bmonth)
-        wd.find_element_by_name("byear").send_keys(contacts.byear)
+    def fill_dates(self, wd, contact):
+        Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
+        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
+        wd.find_element_by_name("byear").send_keys(contact.byear)
 
-        Select(wd.find_element_by_name("aday")).select_by_visible_text(contacts.aday)
-        Select(wd.find_element_by_name("amonth")).select_by_visible_text(contacts.amonth)
-        wd.find_element_by_name("ayear").send_keys(contacts.ayear)
+        Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.aday)
+        Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.amonth)
+        wd.find_element_by_name("ayear").send_keys(contact.ayear)
 
-    def fill_secondary_info(self, wd, contacts):
-        wd.find_element_by_name("address2").send_keys(contacts.address2)
-        wd.find_element_by_name("phone2").send_keys(contacts.phone2)
-        wd.find_element_by_name("notes").send_keys(contacts.notes)
+    def fill_secondary_info(self, wd, contact):
+        wd.find_element_by_name("address2").send_keys(contact.address2)
+        wd.find_element_by_name("phone2").send_keys(contact.phone2)
+        wd.find_element_by_name("notes").send_keys(contact.notes)
 
     def to_home_page(self, wd):
         wd.find_element_by_link_text("home page").click()
