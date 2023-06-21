@@ -9,13 +9,16 @@ class ContactHelper:
         wd = self.app.wd
         self.to_add_contact_page()
         wd.find_element_by_link_text("add new").click()
+        self.fill_contact_info(contact)
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.to_home_page()
+
+    def fill_contact_info(self, contact):
         self.fill_contacts(contact)
         self.fill_phones(contact)
         self.fill_personal_info(contact)
         self.fill_dates(contact)
         self.fill_secondary_info(contact)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.to_home_page()
 
     def fill_contacts(self, contact):
         self.change_field_value("email", contact.email)
@@ -67,9 +70,13 @@ class ContactHelper:
         wd = self.app.wd
         wd.get("http://localhost/addressbook/edit.php")
 
+    def open_contacts_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+
     def delete_first_contact(self):
         wd = self.app.wd
-        self.select_first_contact()
+        self.open_contacts_page()
         self.first_edit()
         wd.find_element_by_xpath("//*[@id='content']/form[2]/input[2]").click()
 
@@ -78,19 +85,11 @@ class ContactHelper:
         wd.find_element_by_xpath("//img[@alt='Edit']")
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
 
-    def select_first_contact(self):
-        wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
-
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
-        self.select_first_contact()
+        self.open_contacts_page()
         self.first_edit()
-        self.fill_contacts(new_contact_data)
-        self.fill_phones(new_contact_data)
-        self.fill_personal_info(new_contact_data)
-        self.fill_dates(new_contact_data)
-        self.fill_secondary_info(new_contact_data)
+        self.fill_contact_info(new_contact_data)
         wd.find_element_by_xpath("//*[@id='content']/form[1]/input[22]").click()
         self.to_home_page()
 
