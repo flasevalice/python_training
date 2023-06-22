@@ -68,7 +68,8 @@ class ContactHelper:
 
     def to_add_contact_page(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/edit.php")
+        if not (len(wd.find_elements_by_name("searchstring")) > 0):
+            wd.get("http://localhost/addressbook/edit.php")
 
     def open_contacts_page(self):
         wd = self.app.wd
