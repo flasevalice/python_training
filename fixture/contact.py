@@ -67,12 +67,12 @@ class ContactHelper:
     def to_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
-        wd.get("http://localhost/addressbook/index.php")
+        wd.get(self.app.base_url+"index.php")
 
     def to_add_contact_page(self):
         wd = self.app.wd
         if not (len(wd.find_elements_by_name("searchstring")) > 0):
-            wd.get("http://localhost/addressbook/edit.php")
+            wd.get(self.app.base_url+"edit.php")
 
     def open_contacts_page(self):
         wd = self.app.wd
