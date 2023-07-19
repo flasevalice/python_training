@@ -81,20 +81,32 @@ class ContactHelper:
     def delete_first_contact(self):
         self.delete_some_contact(0)
 
-    def delete_some_contact(self, index):
+    def delete_some_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contacts_page()
-        self.some_edit(index)
+        self.some_edit_by_index(index)
+        wd.find_element_by_xpath("//*[@id='content']/form[2]/input[2]").click()
+        self.contact_cache = None
+
+    def delete_some_contact_by_id(self, id):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.some_edit_by_id(id)
         wd.find_element_by_xpath("//*[@id='content']/form[2]/input[2]").click()
         self.contact_cache = None
 
     def first_edit(self):
-        self.some_edit(0)
+        self.some_edit_by_index(0)
 
-    def some_edit(self, index):
+    def some_edit_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_xpath("//img[@alt='Edit']")
         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
+    def some_edit_by_id(self, id):
+        wd = self.app.wd
+        wd.find_elements_by_css_selector("input[value]")
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(new_contact_data, 0)
@@ -102,7 +114,16 @@ class ContactHelper:
     def modify_contact_by_index(self, new_contact_data, index):
         wd = self.app.wd
         self.open_contacts_page()
-        self.some_edit(index)
+        self.some_edit_by_index(index)
+        self.fill_contact_info(new_contact_data)
+        wd.find_element_by_xpath("//*[@id='content']/form[1]/input[22]").click()
+        self.to_home_page()
+        self.contact_cache = None
+
+    def modify_contact_by_id(self, new_contact_data):
+        wd = self.app.wd
+        self.open_contacts_page()
+        self.some_edit_by_id(new_contact_data.id)
         self.fill_contact_info(new_contact_data)
         wd.find_element_by_xpath("//*[@id='content']/form[1]/input[22]").click()
         self.to_home_page()
