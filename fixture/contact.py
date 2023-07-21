@@ -105,8 +105,7 @@ class ContactHelper:
 
     def some_edit_by_id(self, id):
         wd = self.app.wd
-        wd.find_elements_by_css_selector("input[value]")
-        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_xpath("//*[@id='%s']/../..//*[@title='Edit']" % id).click()
 
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(new_contact_data, 0)
