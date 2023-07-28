@@ -6,24 +6,21 @@ from fixture.orm import ORMFixture
 
 
 def test_add_contact_to_group(app, db):
+    orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
     # если нет контактов, создаем контакт
-    if len(db.get_contact_list()) == 0:
+    if len(orm.get_contact_list()) == 0:
         app.contact.fill_full_contact_info(Contact(firstname="New first firstname"))
     # если нет группы, создаем группу
-    if len(db.get_group_list()) == 0:
+    if len(orm.get_group_list()) == 0:
         app.group.create(Group(name="New first group"))
-    # список контактов
-    contacts_db = db.get_contact_list()
     # список групп
-    groups_db = db.get_group_list()
+    groups_orm = orm.get_group_list()
     # выбираем случайную группу
-    rand_gr = random.choice(db.get_group_list())
+    rand_gr = random.choice(groups_orm)
     # выбираем случайный контакт из тех, у кого нет группы
-    rand_cont = random.choice(db.get_contacts_not_in_group(Group(id='%s' % rand_gr.id)))
-    # contacts_not_in_gr =
+    rand_cont = random.choice(orm.get_contacts_not_in_group(Group(rand_gr)))
+    # rand_cont = orm.get_contacts_not_in_group(Group(id='%s' % rand_gr.id))
     # добавляем контакт в группу
     app.contact.add_contact_to_group_by_id(rand_cont.id, rand_gr.id)
     # добавить ассерты
-    # print(contacts_not_in_gr)
-    # contacts_in_group = orm.get_contacts_in_group(rand_gr.id))
-    # print(contacts_in_group)
+    assert rand_cont in orm.get_contacts_in_group(rand_gr)
