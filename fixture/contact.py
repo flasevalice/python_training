@@ -107,6 +107,10 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath("//*[@id='%s']/../..//*[@title='Edit']" % id).click()
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(new_contact_data, 0)
 
@@ -203,3 +207,10 @@ class ContactHelper:
         secondaryphone = re.search("P: (.*)", text).group(1)
         return Contact(home=homephone, work=workphone,
                        mobile=mobilephone, phone2=secondaryphone)
+
+    def add_contact_to_group_by_id(self, cont_id, gr_id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_contact_by_id(cont_id)
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % gr_id).click()
+        wd.find_element_by_css_selector("input[value='Add to']").click()
