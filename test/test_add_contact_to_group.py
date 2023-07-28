@@ -5,7 +5,7 @@ from fixture.group import Group
 from fixture.orm import ORMFixture
 
 
-def test_add_contact_to_group(app, db):
+def test_add_contact_to_group(app):
     orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
     # если нет контактов, создаем контакт
     if len(orm.get_contact_list()) == 0:
@@ -18,8 +18,7 @@ def test_add_contact_to_group(app, db):
     # выбираем случайную группу
     rand_gr = random.choice(groups_orm)
     # выбираем случайный контакт из тех, у кого нет группы
-    rand_cont = random.choice(orm.get_contacts_not_in_group(Group(rand_gr)))
-    # rand_cont = orm.get_contacts_not_in_group(Group(id='%s' % rand_gr.id))
+    rand_cont = random.choice(orm.get_contacts_not_in_group(rand_gr))
     # добавляем контакт в группу
     app.contact.add_contact_to_group_by_id(rand_cont.id, rand_gr.id)
     # добавить ассерты
