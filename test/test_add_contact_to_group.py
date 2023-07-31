@@ -17,8 +17,14 @@ def test_add_contact_to_group(app):
     groups_orm = orm.get_group_list()
     # выбираем случайную группу
     rand_gr = random.choice(groups_orm)
+    # список контактов, у кого нет группы
+    contacts_not_in_group_list = orm.get_contacts_not_in_group(rand_gr)
+    # если нет контактов не в группе, то создаем контакт ещё раз
+    if len(contacts_not_in_group_list) == 0:
+        app.contact.fill_full_contact_info(Contact(firstname="New first firstname"))
+        contacts_not_in_group_list = orm.get_contacts_not_in_group(groups_orm.id)
     # выбираем случайный контакт из тех, у кого нет группы
-    rand_cont = random.choice(orm.get_contacts_not_in_group(rand_gr))
+    rand_cont = random.choice(contacts_not_in_group_list)
     # добавляем контакт в группу
     app.contact.add_contact_to_group_by_id(rand_cont.id, rand_gr.id)
     # добавить ассерты
