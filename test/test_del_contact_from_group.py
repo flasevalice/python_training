@@ -17,13 +17,14 @@ def test_del_contact_from_group(app):
     groups_orm = orm.get_group_list()
     # выбираем случайную группу
     rand_gr = random.choice(groups_orm)
+    # выбираем случайный контакт
+    rand_cont = random.choice(orm.get_contacts_not_in_group(rand_gr))
     # если нет группы с контактом, то добавляем контакт
     if len(orm.get_contacts_in_group(rand_gr)) == 0:
-        rand_cont = random.choice(orm.get_contacts_not_in_group(rand_gr))
         app.contact.add_contact_to_group_by_id(rand_cont.id, rand_gr.id)
         assert rand_cont in orm.get_contacts_in_group(rand_gr)
     # выбираем случайный контакт для удаления из группы
-    rand_cont_for_del = random.choice(orm.get_contacts_not_in_group(rand_gr))
+    rand_cont_for_del = random.choice(orm.get_contacts_in_group(rand_gr))
     # удаляем контакт из группы
     app.contact.delete_contact_from_group_by_id(rand_cont_for_del.id, rand_gr.id)
     # проверка, что в списке групп с контактами появилась группа
