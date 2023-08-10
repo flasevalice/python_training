@@ -8,3 +8,10 @@ Examples:
 |name  | logo  | comment  |
 |name1 | logo1 | comment1 |
 |name2 | logo2 | comment2 |
+
+
+ Scenario: Delete a group
+  Given a non-empty group list
+  Given a random group from the list
+  When I delete the group from the list
+  Then the new group list is equal to the old list without the deleted group
